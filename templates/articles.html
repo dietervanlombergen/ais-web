@@ -1,0 +1,535 @@
+{% extends "base.html" %}
+
+{% block title %}Articles - Python Website{% endblock %}
+
+{% block extra_head %}
+<style>
+.article-card {
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
+    margin-bottom: 1.5rem;
+}
+
+.article-card:hover {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.article-summary {
+    max-height: 100px;
+    overflow: hidden;
+    position: relative;
+}
+
+.article-summary::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient(transparent, white);
+}
+
+.ai-badge {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.sentiment-positive { color: #28a745; }
+.sentiment-negative { color: #dc3545; }
+.sentiment-neutral { color: #6c757d; }
+
+.loading-spinner {
+    display: none;
+}
+
+.loading .loading-spinner {
+    display: inline-block;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="display-4 text-center mb-4">📰 RSS Articles with AI Analysis</h1>
+            <p class="lead text-center mb-5">Discover articles from popular RSS feeds with AI-powered summaries and insights</p>
+        </div>
+    </div>
+
+    <!-- RSS Feed Selection -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">📡 Select RSS Feed</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <select id="feedSelector" class="form-select">
+                                <option value="">Choose a popular RSS feed...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <button id="fetchFeedBtn" class="btn btn-primary w-100" disabled>
+                                <span class="loading-spinner spinner-border spinner-border-sm me-2" role="status"></span>
+                                Fetch Articles
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="customFeedUrl" class="form-label">Or enter custom RSS feed URL:</label>
+                                <div class="input-group">
+                                    <input type="url" id="customFeedUrl" class="form-control" placeholder="https://example.com/rss">
+                                    <button id="fetchCustomBtn" class="btn btn-outline-primary">
+                                        <span class="loading-spinner spinner-border spinner-border-sm me-2" role="status"></span>
+                                        Fetch
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Status -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div id="aiStatus" class="alert alert-info">
+                <i class="fas fa-robot me-2"></i>
+                <span id="aiStatusText">Checking AI service availability...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feed Information -->
+    <div id="feedInfo" class="row mb-4" style="display: none;">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 id="feedTitle" class="card-title"></h5>
+                    <p id="feedDescription" class="card-text"></p>
+                    <small class="text-muted">
+                        Last updated: <span id="feedUpdated"></span> | 
+                        Articles: <span id="feedCount"></span>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Articles Grid -->
+    <div id="articlesContainer" class="row">
+        <!-- Articles will be loaded here dynamically -->
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="text-center" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2">Loading articles...</p>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="alert alert-danger" style="display: none;">
+        <h4 class="alert-heading">Error Loading Articles</h4>
+        <p id="errorMessage"></p>
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="text-center" style="display: none;">
+        <div class="py-5">
+            <i class="fas fa-newspaper fa-5x text-muted mb-3"></i>
+            <h3>No Articles Found</h3>
+            <p class="text-muted">Select a feed above to start browsing articles.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+class ArticlesApp {
+    constructor() {
+        this.currentFeed = null;
+        this.articles = [];
+        this.init();
+    }
+
+    async init() {
+        this.setupEventListeners();
+        await this.loadFeeds();
+        await this.checkAIStatus();
+    }
+
+    setupEventListeners() {
+        document.getElementById('fetchFeedBtn').addEventListener('click', () => {
+            const selectedFeed = document.getElementById('feedSelector').value;
+            if (selectedFeed) {
+                this.fetchFeed(selectedFeed);
+            }
+        });
+
+        document.getElementById('fetchCustomBtn').addEventListener('click', () => {
+            const customUrl = document.getElementById('customFeedUrl').value;
+            if (customUrl) {
+                this.fetchFeed(customUrl);
+            }
+        });
+
+        document.getElementById('feedSelector').addEventListener('change', (e) => {
+            document.getElementById('fetchFeedBtn').disabled = !e.target.value;
+        });
+    }
+
+    async loadFeeds() {
+        try {
+            const response = await fetch('/api/feeds');
+            const data = await response.json();
+            
+            if (data.success) {
+                const selector = document.getElementById('feedSelector');
+                data.feeds.forEach(feed => {
+                    const option = document.createElement('option');
+                    option.value = feed.url;
+                    option.textContent = `${feed.name} - ${feed.description}`;
+                    selector.appendChild(option);
+                });
+            }
+        } catch (error) {
+            console.error('Error loading feeds:', error);
+        }
+    }
+
+    async checkAIStatus() {
+        try {
+            const response = await fetch('/api/health');
+            const data = await response.json();
+            
+            const statusElement = document.getElementById('aiStatusText');
+            if (data.ai_available) {
+                statusElement.innerHTML = '<i class="fas fa-check-circle text-success me-2"></i>AI service is available for generating summaries and analysis';
+                document.getElementById('aiStatus').className = 'alert alert-success';
+            } else {
+                statusElement.innerHTML = '<i class="fas fa-exclamation-triangle text-warning me-2"></i>AI service not available. Using fallback summaries.';
+                document.getElementById('aiStatus').className = 'alert alert-warning';
+            }
+        } catch (error) {
+            console.error('Error checking AI status:', error);
+        }
+    }
+
+    async fetchFeed(feedUrl) {
+        this.showLoading();
+        
+        try {
+            const response = await fetch(`/api/fetch-feed?url=${encodeURIComponent(feedUrl)}`);
+            const data = await response.json();
+            
+            if (data.success) {
+                this.currentFeed = data.data;
+                this.articles = data.data.articles;
+                this.displayFeedInfo();
+                this.displayArticles();
+            } else {
+                this.showError(data.error || 'Failed to fetch feed');
+            }
+        } catch (error) {
+            this.showError('Network error: ' + error.message);
+        }
+    }
+
+    displayFeedInfo() {
+        if (!this.currentFeed) return;
+
+        const feedInfo = this.currentFeed.feed_info;
+        document.getElementById('feedTitle').textContent = feedInfo.title;
+        document.getElementById('feedDescription').textContent = feedInfo.description;
+        document.getElementById('feedUpdated').textContent = new Date(feedInfo.updated || Date.now()).toLocaleDateString();
+        document.getElementById('feedCount').textContent = feedInfo.total_entries;
+        
+        document.getElementById('feedInfo').style.display = 'block';
+    }
+
+    displayArticles() {
+        const container = document.getElementById('articlesContainer');
+        container.innerHTML = '';
+
+        if (!this.articles || this.articles.length === 0) {
+            this.showEmpty();
+            return;
+        }
+
+        this.articles.forEach((article, index) => {
+            const articleCard = this.createArticleCard(article, index);
+            container.appendChild(articleCard);
+        });
+
+        this.hideLoading();
+    }
+
+    createArticleCard(article, index) {
+        const col = document.createElement('div');
+        col.className = 'col-lg-6 col-xl-4 mb-4';
+
+        const card = document.createElement('div');
+        card.className = 'card article-card h-100';
+
+        const cardBody = document.createElement('div');
+        cardBody.className = 'card-body d-flex flex-column';
+
+        // Title
+        const title = document.createElement('h6');
+        title.className = 'card-title';
+        title.innerHTML = `<a href="${article.link}" target="_blank" class="text-decoration-none">${article.title}</a>`;
+
+        // Meta information
+        const meta = document.createElement('small');
+        meta.className = 'text-muted mb-2';
+        meta.innerHTML = `
+            <i class="fas fa-user me-1"></i>${article.author} | 
+            <i class="fas fa-calendar me-1"></i>${this.formatDate(article.published)}
+        `;
+
+        // Summary
+        const summary = document.createElement('p');
+        summary.className = 'card-text article-summary flex-grow-1';
+        summary.textContent = article.summary || 'No summary available';
+
+        // Tags
+        const tags = document.createElement('div');
+        tags.className = 'mb-2';
+        if (article.tags && article.tags.length > 0) {
+            article.tags.slice(0, 3).forEach(tag => {
+                const badge = document.createElement('span');
+                badge.className = 'badge bg-secondary me-1';
+                badge.textContent = tag;
+                tags.appendChild(badge);
+            });
+        }
+
+        // Action buttons
+        const actions = document.createElement('div');
+        actions.className = 'mt-auto';
+        actions.innerHTML = `
+            <div class="btn-group w-100" role="group">
+                <button class="btn btn-outline-primary btn-sm" onclick="articlesApp.generateSummary(${index})">
+                    <i class="fas fa-magic me-1"></i>AI Summary
+                </button>
+                <button class="btn btn-outline-info btn-sm" onclick="articlesApp.analyzeSentiment(${index})">
+                    <i class="fas fa-heart me-1"></i>Sentiment
+                </button>
+            </div>
+        `;
+
+        cardBody.appendChild(title);
+        cardBody.appendChild(meta);
+        cardBody.appendChild(tags);
+        cardBody.appendChild(summary);
+        cardBody.appendChild(actions);
+
+        card.appendChild(cardBody);
+        col.appendChild(card);
+
+        return col;
+    }
+
+    async generateSummary(articleIndex) {
+        const article = this.articles[articleIndex];
+        if (!article) return;
+
+        const button = event.target.closest('button');
+        const originalText = button.innerHTML;
+        button.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Generating...';
+        button.disabled = true;
+
+        try {
+            const response = await fetch('/api/generate-summary', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title: article.title,
+                    content: article.content || article.summary,
+                    max_length: 150
+                })
+            });
+
+            const data = await response.json();
+            
+            if (data.success) {
+                // Show summary in a modal or alert
+                this.showSummaryModal(article.title, data.summary);
+            } else {
+                alert('Error generating summary: ' + data.error);
+            }
+        } catch (error) {
+            alert('Error generating summary: ' + error.message);
+        } finally {
+            button.innerHTML = originalText;
+            button.disabled = false;
+        }
+    }
+
+    async analyzeSentiment(articleIndex) {
+        const article = this.articles[articleIndex];
+        if (!article) return;
+
+        const button = event.target.closest('button');
+        const originalText = button.innerHTML;
+        button.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Analyzing...';
+        button.disabled = true;
+
+        try {
+            const response = await fetch('/api/analyze-sentiment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    content: article.content || article.summary
+                })
+            });
+
+            const data = await response.json();
+            
+            if (data.success) {
+                this.showSentimentModal(article.title, data.sentiment);
+            } else {
+                alert('Error analyzing sentiment: ' + data.error);
+            }
+        } catch (error) {
+            alert('Error analyzing sentiment: ' + error.message);
+        } finally {
+            button.innerHTML = originalText;
+            button.disabled = false;
+        }
+    }
+
+    showSummaryModal(title, summary) {
+        const modal = document.createElement('div');
+        modal.className = 'modal fade';
+        modal.innerHTML = `
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">AI Summary: ${title}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="ai-badge mb-3">🤖 AI Generated</div>
+                        <p>${summary}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        const bsModal = new bootstrap.Modal(modal);
+        bsModal.show();
+        
+        modal.addEventListener('hidden.bs.modal', () => {
+            document.body.removeChild(modal);
+        });
+    }
+
+    showSentimentModal(title, sentiment) {
+        const sentimentClass = `sentiment-${sentiment.sentiment}`;
+        const modal = document.createElement('div');
+        modal.className = 'modal fade';
+        modal.innerHTML = `
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Sentiment Analysis: ${title}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="ai-badge mb-3">🤖 AI Generated</div>
+                        <div class="text-center">
+                            <h4 class="${sentimentClass}">${sentiment.sentiment.toUpperCase()}</h4>
+                            <p>Confidence: ${sentiment.confidence}%</p>
+                            <p class="text-muted">${sentiment.explanation}</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        const bsModal = new bootstrap.Modal(modal);
+        bsModal.show();
+        
+        modal.addEventListener('hidden.bs.modal', () => {
+            document.body.removeChild(modal);
+        });
+    }
+
+    formatDate(dateString) {
+        if (!dateString) return 'Unknown date';
+        try {
+            return new Date(dateString).toLocaleDateString();
+        } catch {
+            return dateString;
+        }
+    }
+
+    showLoading() {
+        document.getElementById('loadingState').style.display = 'block';
+        document.getElementById('articlesContainer').innerHTML = '';
+        this.hideError();
+        this.hideEmpty();
+    }
+
+    hideLoading() {
+        document.getElementById('loadingState').style.display = 'none';
+    }
+
+    showError(message) {
+        document.getElementById('errorMessage').textContent = message;
+        document.getElementById('errorState').style.display = 'block';
+        this.hideLoading();
+        this.hideEmpty();
+    }
+
+    hideError() {
+        document.getElementById('errorState').style.display = 'none';
+    }
+
+    showEmpty() {
+        document.getElementById('emptyState').style.display = 'block';
+        this.hideLoading();
+        this.hideError();
+    }
+
+    hideEmpty() {
+        document.getElementById('emptyState').style.display = 'none';
+    }
+}
+
+// Initialize the app when the page loads
+let articlesApp;
+document.addEventListener('DOMContentLoaded', () => {
+    articlesApp = new ArticlesApp();
+});
+</script>
+{% endblock %}

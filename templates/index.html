@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Python Website{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Hero Section -->
+    <div class="row align-items-center min-vh-75">
+        <div class="col-lg-6">
+            <h1 class="display-4 fw-bold text-primary">Welcome to Your Python Website</h1>
+            <p class="lead">A modern, responsive website built with Flask and Bootstrap. This is your starting point for creating amazing web applications.</p>
+            <div class="mt-4">
+                <a href="{{ url_for('about') }}" class="btn btn-primary btn-lg me-3">Learn More</a>
+                <a href="{{ url_for('contact') }}" class="btn btn-outline-primary btn-lg">Get Started</a>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="text-center">
+                <img src="{{ url_for('static', filename='images/hero-image.jpg') }}" 
+                     alt="Python Development" 
+                     class="img-fluid rounded shadow"
+                     onerror="this.style.display='none'">
+                <div class="placeholder-hero bg-light rounded shadow d-flex align-items-center justify-content-center" 
+                     style="height: 300px; display: none !important;">
+                    <div class="text-center">
+                        <i class="fas fa-code fa-5x text-primary mb-3"></i>
+                        <h3>Python Development</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row mt-5 mb-5">
+        <div class="col-12">
+            <h2 class="text-center mb-5">Features</h2>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="fas fa-rocket fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Fast Development</h5>
+                    <p class="card-text">Built with Flask for rapid prototyping and development.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="fas fa-mobile-alt fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Responsive Design</h5>
+                    <p class="card-text">Mobile-first design that works on all devices.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="fas fa-cogs fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Easy to Customize</h5>
+                    <p class="card-text">Clean, modular code that's easy to extend and modify.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- API Status -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">API Status</h5>
+                    <p class="card-text">Check if the server is running properly.</p>
+                    <button id="checkStatus" class="btn btn-outline-primary">Check Status</button>
+                    <div id="statusResult" class="mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.getElementById('checkStatus').addEventListener('click', function() {
+    fetch('/api/health')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('statusResult').innerHTML = 
+                `<div class="alert alert-success">${data.message}</div>`;
+        })
+        .catch(error => {
+            document.getElementById('statusResult').innerHTML = 
+                `<div class="alert alert-danger">Error: ${error.message}</div>`;
+        });
+});
+</script>
+{% endblock %}

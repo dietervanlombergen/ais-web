@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}About - Python Website{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <h1 class="display-4 text-center mb-5">About This Project</h1>
+            
+            <div class="row mb-5">
+                <div class="col-md-6">
+                    <h3>Built with Modern Technologies</h3>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>Python 3.x</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Flask Web Framework</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Bootstrap 5</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Jinja2 Templates</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Responsive Design</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h3>Features Included</h3>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>Virtual Environment Setup</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Environment Configuration</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Contact Form Handling</li>
+                        <li><i class="fas fa-check text-success me-2"></i>API Endpoints</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Static File Management</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4>Getting Started</h4>
+                    <p>This project provides a solid foundation for building web applications with Python. The structure is designed to be scalable and maintainable.</p>
+                    <ol>
+                        <li>Activate your virtual environment</li>
+                        <li>Install dependencies with <code>pip install -r requirements.txt</code></li>
+                        <li>Run the application with <code>python app.py</code></li>
+                        <li>Visit <code>http://localhost:5000</code> in your browser</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4>Next Steps</h4>
+                    <p>Consider adding these features to enhance your application:</p>
+                    <ul>
+                        <li>Database integration (SQLite, PostgreSQL, MySQL)</li>
+                        <li>User authentication and authorization</li>
+                        <li>REST API development</li>
+                        <li>Testing framework setup</li>
+                        <li>Deployment configuration</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+services:
+  web:
+    image: 4ntoon/ais-web:1
+    ports:
+      - "8000:8000"
+    environment:
+      - FLASK_ENV=production
+      - FLASK_DEBUG=False
+      - SECRET_KEY="JQF8sHGMkHwLVmtaX85lOSh9Wny5h0diblANdLnv"
+      - COHERE_API_KEY=${COHERE_API_KEY}
+      - COHERE_MODEL=${COHERE_MODEL:-command-a-03-2025}
+    volumes:
+      # Mount static files for development (optional)
+      - ./static:/app/static:ro
+      - ./templates:/app/templates:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Add a reverse proxy (nginx)
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - web
+    restart: unless-stopped
+    profiles:
+      - production
+
+  # Optional: Add a database (PostgreSQL)
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=python_website
+      - POSTGRES_USER=webapp
+      - POSTGRES_PASSWORD=secure_password_here
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    profiles:
+      - database
+
+volumes:
+  postgres_data:
