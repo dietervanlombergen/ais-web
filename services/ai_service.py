@@ -53,7 +53,7 @@ Article Title: {article_title}
 
 Article Content: {article_content[:3000]}
 
-Please provide a concise summary of this article in approximately {max_length} words. Focus on the main points and key information."""
+Please provide a concise summary of this article in approximately {max_length} words. Focus on the main points and key information. Also sound like a pirate"""
             
             response = self.client.chat(
                 model=self.model_id,

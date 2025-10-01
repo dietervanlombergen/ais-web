@@ -6,7 +6,6 @@ services:
     environment:
       - FLASK_ENV=production
       - FLASK_DEBUG=False
-      - SECRET_KEY="JQF8sHGMkHwLVmtaX85lOSh9Wny5h0diblANdLnv"
       - COHERE_API_KEY=${COHERE_API_KEY}
       - COHERE_MODEL=${COHERE_MODEL:-command-a-03-2025}
     volumes:
