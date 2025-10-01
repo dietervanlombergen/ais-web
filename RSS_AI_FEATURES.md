@@ -27,7 +27,7 @@ source venv/bin/activate
 python app.py
 ```
 
-Visit: http://localhost:5050/articles
+Visit: http://localhost:5000/articles
 
 ### 2. AI Features Setup (Optional)
 To enable AI-powered summaries and analysis:
@@ -55,7 +55,7 @@ To enable AI-powered summaries and analysis:
 ## 📱 How to Use
 
 ### Accessing the Articles Page
-1. Navigate to http://localhost:5050/articles
+1. Navigate to http://localhost:5000/articles
 2. Select a feed from the dropdown or enter a custom RSS URL
 3. Click "Fetch Articles" to load articles
 
@@ -178,7 +178,7 @@ Edit `templates/articles.html` to customize the appearance:
 #### Server Errors
 - **Dependencies**: Ensure all packages are installed
 - **Python Version**: Requires Python 3.8+
-- **Port Conflicts**: Make sure port 5050 is available
+- **Port Conflicts**: Make sure port 5000 is available
 
 ### Debug Mode
 Enable debug logging:
@@ -217,7 +217,7 @@ logging.basicConfig(level=logging.DEBUG)
 ### Production Deployment
 1. **Set Environment Variables**:
    ```bash
-   export OPENAI_API_KEY="your-production-key"
+   export COHERE_API_KEY="your-production-key"
    export FLASK_ENV=production
    ```
 
@@ -288,4 +288,4 @@ fetch('/api/generate-summary', {
 
 **Your RSS feed and AI-powered article analysis system is ready to use! 🎉**
 
-Visit http://localhost:5050/articles to start exploring articles with AI insights.
+Visit http://localhost:5000/articles to start exploring articles with AI insights.

@@ -1,4 +1,4 @@
-# Cohere AI Integration Setup Guide
+©# Cohere AI Integration Setup Guide
 
 Your Python website now uses **Cohere AI** for powerful article analysis! This guide will help you set up and configure Cohere for optimal performance.
 
@@ -42,7 +42,7 @@ python app.py
 
 ### 2. Check AI Status
 ```bash
-curl http://localhost:5050/api/health
+curl http://localhost:5000/api/health
 ```
 
 You should see:
@@ -55,7 +55,7 @@ You should see:
 ```
 
 ### 3. Test AI Features
-1. Visit http://localhost:5050/articles
+1. Visit http://localhost:5000/articles
 2. Fetch some articles from a RSS feed
 3. Click "AI Summary" or "Sentiment" buttons
 4. Watch the AI analysis appear in modal dialogs!
@@ -264,4 +264,4 @@ Your Python website now has powerful AI capabilities powered by Cohere!
 3. Restart the server
 4. Enjoy AI-powered article analysis!
 
-Visit http://localhost:5050/articles to see it in action! 🚀
+Visit http://localhost:5000/articles to see it in action! 🚀
