@@ -1,101 +1,271 @@
-/* Custom CSS for Python Website */
+/* Custom CSS for Pirate Website - Ahoy Matey! 🏴‍☠️ */
 
 /* Font Awesome for icons */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 
+/* Pirate-themed Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Pirata+One&family=Creepster&family=Butcherman&family=Seaweed+Script:wght@400&display=swap');
+
 /* Custom styles */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Seaweed Script', cursive;
+    font-size: 1.4rem;
     line-height: 1.6;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+    color: #f4e4bc;
+    background-attachment: fixed;
+    position: relative;
+}
+
+/* Pirate background pattern */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(120, 255, 198, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
 }
 
 .min-vh-75 {
     min-height: 75vh;
 }
 
-/* Hero section styling */
+/* Hero section styling - Pirate Ship Deck */
 .hero-section {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: linear-gradient(135deg, #8B4513 0%, #A0522D 25%, #CD853F 50%, #D2691E 75%, #8B4513 100%);
+    color: #f4e4bc;
     padding: 100px 0;
+    position: relative;
+    overflow: hidden;
 }
 
-/* Card hover effects */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px);
+    pointer-events: none;
+}
+
+/* Card hover effects - Treasure Chest Style */
 .card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: linear-gradient(145deg, #2c1810, #3d2317);
+    border: 2px solid #8B4513;
+    border-radius: 15px;
+    color: #f4e4bc;
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+    transform: translateY(-8px) rotate(1deg);
+    box-shadow: 0 15px 35px rgba(255, 215, 0, 0.3) !important;
+    border-color: #FFD700;
 }
 
-/* Button styling */
+/* Button styling - Pirate Treasure Buttons */
 .btn {
     border-radius: 25px;
-    padding: 10px 25px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-/* Navigation styling */
-.navbar-brand {
+    padding: 12px 30px;
     font-weight: bold;
-    font-size: 1.5rem;
+    font-family: 'Pirata One', cursive;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #8B4513, #A0522D);
+    border: 2px solid #FFD700;
+    color: #f4e4bc;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, #A0522D, #CD853F);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+    color: #FFD700;
+}
+
+.btn-outline-primary {
+    border: 2px solid #8B4513;
+    color: #8B4513;
+    background: transparent;
+}
+
+.btn-outline-primary:hover {
+    background: linear-gradient(45deg, #8B4513, #A0522D);
+    color: #f4e4bc;
+    border-color: #FFD700;
+}
+
+/* Navigation styling - Pirate Ship Navigation */
+.navbar-brand {
+    font-family: 'Pirata One', cursive;
+    font-weight: bold;
+    font-size: 2.5rem;
+    color: #FFD700 !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 .navbar-nav .nav-link {
-    font-weight: 500;
-    margin: 0 10px;
-    transition: color 0.3s ease;
+    font-family: 'Seaweed Script', cursive;
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin: 0 15px;
+    transition: all 0.3s ease;
+    color: #f4e4bc !important;
+    position: relative;
+}
+
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after {
+    width: 100%;
 }
 
 .navbar-nav .nav-link:hover {
-    color: #ffc107 !important;
+    color: #FFD700 !important;
+    transform: translateY(-2px);
 }
 
-/* Footer styling */
+/* Footer styling - Pirate Ship Hull */
 footer {
     margin-top: auto;
+    background: linear-gradient(135deg, #2c1810, #1a0f0a);
+    border-top: 3px solid #FFD700;
+    position: relative;
 }
 
-/* Form styling */
+footer::before {
+    content: '⚓';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    background: #2c1810;
+    padding: 0 20px;
+}
+
+/* Form styling - Treasure Map Forms */
 .form-control {
-    border-radius: 10px;
-    border: 2px solid #e9ecef;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 15px;
+    border: 2px solid #8B4513;
+    background: rgba(44, 24, 16, 0.8);
+    color: #f4e4bc;
+    transition: all 0.3s ease;
+    font-family: 'Seaweed Script', cursive;
+    font-size: 1.3rem;
+}
+
+.form-control::placeholder {
+    color: #CD853F;
+    font-style: italic;
 }
 
 .form-control:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    border-color: #FFD700;
+    box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25);
+    background: rgba(44, 24, 16, 0.9);
+    color: #FFD700;
 }
 
-/* Alert styling */
+.form-label {
+    color: #FFD700;
+    font-family: 'Pirata One', cursive;
+    font-size: 1.4rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Alert styling - Pirate Messages */
 .alert {
-    border-radius: 10px;
-    border: none;
+    border-radius: 15px;
+    border: 2px solid #8B4513;
+    background: linear-gradient(145deg, #2c1810, #3d2317);
+    color: #f4e4bc;
+    font-family: 'Seaweed Script', cursive;
+    font-size: 1.3rem;
 }
 
-/* Animation for loading */
+.alert-success {
+    border-color: #28a745;
+    background: linear-gradient(145deg, #1e3a1e, #2d5a2d);
+}
+
+.alert-danger {
+    border-color: #dc3545;
+    background: linear-gradient(145deg, #3a1e1e, #5a2d2d);
+}
+
+.alert-warning {
+    border-color: #ffc107;
+    background: linear-gradient(145deg, #3a2e1e, #5a4d2d);
+}
+
+.alert-info {
+    border-color: #17a2b8;
+    background: linear-gradient(145deg, #1e2e3a, #2d4d5a);
+}
+
+/* Animation for loading - Treasure Discovery */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(20px) rotate(-2deg);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) rotate(0deg);
     }
 }
 
+@keyframes treasureGlow {
+    0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
+    50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); }
+}
+
 .fade-in {
-    animation: fadeIn 0.6s ease-out;
+    animation: fadeIn 0.8s ease-out;
+}
+
+.treasure-glow {
+    animation: treasureGlow 2s ease-in-out infinite;
 }
 
 /* Responsive adjustments */
@@ -146,4 +316,141 @@ code {
 
 .mt-5 {
     margin-top: 3rem !important;
+}
+
+/* Pirate-themed headings */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Pirata One', cursive;
+    color: #FFD700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+.display-4 {
+    font-family: 'Pirata One', cursive;
+    color: #FFD700;
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
+}
+
+/* Pirate-themed text colors */
+.text-primary {
+    color: #FFD700 !important;
+}
+
+.text-muted {
+    color: #CD853F !important;
+}
+
+/* Pirate-themed backgrounds */
+.bg-primary {
+    background: linear-gradient(135deg, #8B4513, #A0522D) !important;
+}
+
+.bg-dark {
+    background: linear-gradient(135deg, #2c1810, #1a0f0a) !important;
+}
+
+/* Treasure chest effects */
+.treasure-chest {
+    background: linear-gradient(145deg, #8B4513, #A0522D);
+    border: 3px solid #FFD700;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+    position: relative;
+}
+
+.treasure-chest::before {
+    content: '💰';
+    position: absolute;
+    top: -15px;
+    right: 20px;
+    font-size: 2rem;
+    animation: treasureGlow 2s ease-in-out infinite;
+}
+
+/* Pirate ship wheel effect */
+.ship-wheel {
+    width: 60px;
+    height: 60px;
+    border: 4px solid #8B4513;
+    border-radius: 50%;
+    position: relative;
+    margin: 0 auto;
+    animation: rotate 10s linear infinite;
+}
+
+.ship-wheel::before,
+.ship-wheel::after {
+    content: '';
+    position: absolute;
+    background: #8B4513;
+}
+
+.ship-wheel::before {
+    width: 4px;
+    height: 30px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ship-wheel::after {
+    width: 30px;
+    height: 4px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Pirate-themed badges */
+.badge {
+    font-family: 'Pirata One', cursive;
+    font-size: 1rem;
+    border-radius: 15px;
+    padding: 5px 12px;
+}
+
+.bg-secondary {
+    background: linear-gradient(45deg, #8B4513, #A0522D) !important;
+    color: #f4e4bc !important;
+}
+
+/* Pirate-themed list items */
+.list-unstyled li {
+    padding: 8px 0;
+    position: relative;
+    padding-left: 30px;
+}
+
+.list-unstyled li::before {
+    content: '⚔️';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    font-size: 1.2rem;
+}
+
+/* Pirate-themed code blocks */
+code {
+    background: linear-gradient(145deg, #2c1810, #3d2317);
+    color: #FFD700;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 1.1em;
+    border: 1px solid #8B4513;
+    font-family: 'Courier New', monospace;
+}
+
+/* Fix: remove white gradient bar on article summaries */
+.article-summary::after,
+.p-card-text.article-summary::after,
+.card-text.article-summary::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  height: 0 !important;
 }

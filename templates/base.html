@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Python Website{% endblock %}</title>
+    <title>{% block title %}🏴‍☠️ Captain's Quarters - Pirate Website{% endblock %}</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -13,26 +13,36 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- Navigation - Pirate Ship Deck -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('home') }}">Python Website</a>
+            <a class="navbar-brand" href="{{ url_for('home') }}">
+                🏴‍☠️ Captain's Quarters
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                        <a class="nav-link" href="{{ url_for('home') }}">
+                            <i class="fas fa-home me-1"></i>Port
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('about') }}">About</a>
+                        <a class="nav-link" href="{{ url_for('about') }}">
+                            <i class="fas fa-ship me-1"></i>Crew
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('articles') }}">Articles</a>
+                        <a class="nav-link" href="{{ url_for('articles') }}">
+                            <i class="fas fa-treasure-chest me-1"></i>Treasure
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
+                        <a class="nav-link" href="{{ url_for('contact') }}">
+                            <i class="fas fa-anchor me-1"></i>Message in a Bottle
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -44,10 +54,20 @@
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
+    <!-- Footer - Pirate Ship Hull -->
     <footer class="bg-dark text-light py-4 mt-5">
         <div class="container text-center">
-            <p>&copy; 2024 Python Website. Built with Flask.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0">
+                        <i class="fas fa-skull-crossbones me-2"></i>
+                        &copy; 2024 Captain's Quarters. Built with Flask & Pirate Spirit! 🏴‍☠️
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <div class="ship-wheel"></div>
+                </div>
+            </div>
         </div>
     </footer>
 

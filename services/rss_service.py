@@ -232,12 +232,6 @@ class RSSService:
                 'category': 'Technology'
             },
             {
-                'name': 'Reddit Programming',
-                'url': 'https://www.reddit.com/r/programming.rss',
-                'description': 'Programming discussions from Reddit',
-                'category': 'Programming'
-            },
-            {
                 'name': 'Python.org News',
                 'url': 'https://www.python.org/jobs/feed/rss/',
                 'description': 'Python job listings and news',

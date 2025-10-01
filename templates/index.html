@@ -1,78 +1,89 @@
 {% extends "base.html" %}
 
-{% block title %}Home - Python Website{% endblock %}
+{% block title %}🏴‍☠️ Port - Captain's Quarters{% endblock %}
 
 {% block content %}
 <div class="container">
-    <!-- Hero Section -->
-    <div class="row align-items-center min-vh-75">
-        <div class="col-lg-6">
-            <h1 class="display-4 fw-bold text-primary">Welcome to Your Python Website</h1>
-            <p class="lead">A modern, responsive website built with Flask and Bootstrap. This is your starting point for creating amazing web applications.</p>
-            <div class="mt-4">
-                <a href="{{ url_for('about') }}" class="btn btn-primary btn-lg me-3">Learn More</a>
-                <a href="{{ url_for('contact') }}" class="btn btn-outline-primary btn-lg">Get Started</a>
+    <!-- Hero Section - Pirate Ship Deck -->
+    <div class="hero-section">
+        <div class="row align-items-center min-vh-75">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold text-primary">
+                    🏴‍☠️ Ahoy, Matey! Welcome to the Captain's Quarters!
+                </h1>
+                <p class="lead">
+                    Set sail on a digital adventure across the seven seas! This be a treasure trove of modern web development, 
+                    built with Flask and Bootstrap, ready to plunder the depths of the internet! ⚓
+                </p>
+                <div class="mt-4">
+                    <a href="{{ url_for('about') }}" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-ship me-2"></i>Meet the Crew
+                    </a>
+                    <a href="{{ url_for('contact') }}" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-anchor me-2"></i>Send Message in a Bottle
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="text-center">
-                <img src="{{ url_for('static', filename='images/hero-image.jpg') }}" 
-                     alt="Python Development" 
-                     class="img-fluid rounded shadow"
-                     onerror="this.style.display='none'">
-                <div class="placeholder-hero bg-light rounded shadow d-flex align-items-center justify-content-center" 
-                     style="height: 300px; display: none !important;">
-                    <div class="text-center">
-                        <i class="fas fa-code fa-5x text-primary mb-3"></i>
-                        <h3>Python Development</h3>
+            <div class="col-lg-6">
+                <div class="text-center">
+                    <div class="treasure-chest d-flex align-items-center justify-content-center" style="height: 300px;">
+                        <div class="text-center">
+                            <i class="fas fa-ship fa-5x text-primary mb-3"></i>
+                            <h3>🏴‍☠️ Captain's Ship</h3>
+                            <p class="mt-2">Ready to sail the digital seas!</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Features Section -->
+    <!-- Features Section - Pirate Ship Features -->
     <div class="row mt-5 mb-5">
         <div class="col-12">
-            <h2 class="text-center mb-5">Features</h2>
+            <h2 class="text-center mb-5">⚔️ Ship's Features ⚔️</h2>
         </div>
         <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
+            <div class="card h-100 shadow-sm treasure-glow">
                 <div class="card-body text-center">
-                    <i class="fas fa-rocket fa-3x text-primary mb-3"></i>
-                    <h5 class="card-title">Fast Development</h5>
-                    <p class="card-text">Built with Flask for rapid prototyping and development.</p>
+                    <i class="fas fa-ship fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">⚡ Swift Sailing</h5>
+                    <p class="card-text">Built with Flask for rapid development and quick deployment across the digital seas!</p>
                 </div>
             </div>
         </div>
         <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
+            <div class="card h-100 shadow-sm treasure-glow">
                 <div class="card-body text-center">
-                    <i class="fas fa-mobile-alt fa-3x text-primary mb-3"></i>
-                    <h5 class="card-title">Responsive Design</h5>
-                    <p class="card-text">Mobile-first design that works on all devices.</p>
+                    <i class="fas fa-compass fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">🧭 Responsive Navigation</h5>
+                    <p class="card-text">Mobile-first design that works perfectly on all devices - from smartphones to treasure maps!</p>
                 </div>
             </div>
         </div>
         <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
+            <div class="card h-100 shadow-sm treasure-glow">
                 <div class="card-body text-center">
-                    <i class="fas fa-cogs fa-3x text-primary mb-3"></i>
-                    <h5 class="card-title">Easy to Customize</h5>
-                    <p class="card-text">Clean, modular code that's easy to extend and modify.</p>
+                    <i class="fas fa-tools fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">🔧 Easy Customization</h5>
+                    <p class="card-text">Clean, modular code that's easy to extend and modify - like a well-maintained pirate ship!</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- API Status -->
+    <!-- API Status - Ship's Health Check -->
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card treasure-chest">
                 <div class="card-body text-center">
-                    <h5 class="card-title">API Status</h5>
-                    <p class="card-text">Check if the server is running properly.</p>
-                    <button id="checkStatus" class="btn btn-outline-primary">Check Status</button>
+                    <h5 class="card-title">
+                        <i class="fas fa-heartbeat me-2"></i>Ship's Health Check
+                    </h5>
+                    <p class="card-text">Check if the ship's systems are running properly, matey!</p>
+                    <button id="checkStatus" class="btn btn-outline-primary">
+                        <i class="fas fa-stethoscope me-2"></i>Check Ship's Status
+                    </button>
                     <div id="statusResult" class="mt-3"></div>
                 </div>
             </div>
@@ -88,11 +99,17 @@ document.getElementById('checkStatus').addEventListener('click', function() {
         .then(response => response.json())
         .then(data => {
             document.getElementById('statusResult').innerHTML = 
-                `<div class="alert alert-success">${data.message}</div>`;
+                `<div class="alert alert-success">
+                    <i class="fas fa-check-circle me-2"></i>
+                    🏴‍☠️ Ship's systems are running smoothly, Captain! ${data.message}
+                </div>`;
         })
         .catch(error => {
             document.getElementById('statusResult').innerHTML = 
-                `<div class="alert alert-danger">Error: ${error.message}</div>`;
+                `<div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    ⚠️ Avast! There be trouble with the ship's systems: ${error.message}
+                </div>`;
         });
 });
 </script>
