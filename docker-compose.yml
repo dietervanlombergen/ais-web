@@ -19,6 +19,8 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+    networks:
+      - default
 
   # Optional: Add a reverse proxy (nginx)
   nginx:
@@ -51,3 +53,8 @@ services:
 
 volumes:
   postgres_data:
+
+networks:
+  default:
+    external: true
+    name: proxy
