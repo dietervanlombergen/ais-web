@@ -1,6 +1,7 @@
 services:
   web:
     image: 4ntoon/ais-web:1
+    container_name: ais-web-1
     ports:
       - "8000:8000"
     environment:
